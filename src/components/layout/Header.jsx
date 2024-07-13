@@ -8,7 +8,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { orange } from "@mui/material/colors";
+
 import React, { Suspense, lazy, useState } from "react";
 import {
   Add as AddIcon,
@@ -22,8 +22,9 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { server } from "../constants/config";
 import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { userNotExists } from "../../redux/reducers/auth";
+import { setIsMobile, setIsSearch } from "../../redux/reducers/misc";
 // import Search from "../specific/Search"
 
 const Search = lazy(() => import("../specific/Search"));
@@ -34,18 +35,16 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [isMobile, setIsMobile] = useState(false);
-  const [isSearch, setIsSearch] = useState(false);
+  const {isSearch} = useSelector((state)=> state.misc);
+ 
   const [isNewGroup, setIsNewGroup] = useState(false);
   const [isNotification, setIsNotification] = useState(false);
 
   const handleMobile = () => {
-    setIsMobile((prev) => !prev);
+    dispatch(setIsMobile(true));
   };
 
-  const openSearchDialog = () => {
-    setIsSearch((prev) => !prev);
-  };
+  const openSearchDialog = () => dispatch(setIsSearch(true));
 
   const openNewGroup = () => {
     setIsNewGroup((prev) => !prev);
@@ -68,7 +67,7 @@ const Header = () => {
   };
 
 
-  
+
 
   const openNotification = () => {
     setIsNotification((prev) => !prev);
