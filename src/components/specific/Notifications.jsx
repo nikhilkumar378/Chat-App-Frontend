@@ -33,6 +33,7 @@ const Notifications = () => {
   const closeHandler = () => dispatch(setIsNotification(false));
 
   useErrors([{error, isError}]);
+  console.log(data);
 
 
   return (
@@ -42,8 +43,8 @@ const Notifications = () => {
  
  {
   isLoading? (<Skeleton/>) : <>
-  {data?.allRequests.length.length > 0 ? (
-          data?.allRequests.map(({ sender, _id }) => (
+  {data?.allRequests.length > 0 ? (
+          data?.allRequests?.map(({ sender, _id }) => (
             <NotificationItem
               sender={sender}
               _id={_id}
