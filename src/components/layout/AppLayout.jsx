@@ -1,19 +1,17 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-unused-vars
-import React, { useEffect } from "react";
-import Header from "./Header";
-import Title from "../shared/Title";
 import { Drawer, Grid, Skeleton } from "@mui/material";
-import ChatList from "../specific/ChatList";
-import { sampleChats } from "../constants/sampleData";
-import { useParams } from "react-router-dom";
-import Profile from "../specific/Profile";
-import { useMyChatsQuery } from "../../redux/api/api";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsMobile } from "../../redux/reducers/misc";
-import toast from "react-hot-toast";
+import { useParams } from "react-router-dom";
 import { useErrors } from "../../hooks/hook";
+import { useMyChatsQuery } from "../../redux/api/api";
+import { setIsMobile } from "../../redux/reducers/misc";
+import Title from "../shared/Title";
+import ChatList from "../specific/ChatList";
+import Profile from "../specific/Profile";
+import Header from "./Header";
 
 const AppLayout = () => (WrappedComponent) => {
   // eslint-disable-next-line no-unused-vars, react/display-name
@@ -24,11 +22,14 @@ const AppLayout = () => (WrappedComponent) => {
 
     const { isMobile } = useSelector((state) => state.misc);
 
+    //to show avatar in profile
+    const { user } = useSelector((state) => state.auth);
+
     const { isLoading, data, isError, error, refetch } = useMyChatsQuery("");
 
     useErrors([{ isError, error }]);
 
-    console.log(data);
+    // console.log(data);
 
     const handleDeleteChat = (e, _id, groupChat) => {
       e.preventDefault();
@@ -91,7 +92,7 @@ const AppLayout = () => (WrappedComponent) => {
             }}
             height={"100%"}
           >
-            <Profile />
+            <Profile  user={user} />
           </Grid>
         </Grid>
       </>

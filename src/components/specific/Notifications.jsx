@@ -9,22 +9,41 @@ import {
   Dialog,
   DialogTitle,
   ListItem,
+  Skeleton,
   Stack,
   Typography,
 } from "@mui/material";
 import React, { memo } from "react";
-import { sampleNotifications } from "../constants/sampleData";
-import {transformImage} from "../../lib/features"
+import { useErrors } from "../../hooks/hook";
+import { transformImage } from "../../lib/features";
+import { useGetNotificationsQuery } from "../../redux/api/api";
+
+import { useDispatch, useSelector } from "react-redux";
+import { setIsNotification } from "../../redux/reducers/misc";
 
 const Notifications = () => {
+  const {isNotification} = useSelector((state) => state.misc);
+
+  const dispatch = useDispatch();
+
+  const {isLoading, data, error, isError} = useGetNotificationsQuery();
+
   const friendRequestHandler = ({ _id, accept }) => {};
+
+  const closeHandler = () => dispatch(setIsNotification(false));
+
+  useErrors([{error, isError}]);
+
+
   return (
-    <Dialog open>
+    <Dialog open={isNotification} onClose={closeHandler}  >
       <Stack p={{ xs: "1rem", sm: "2rem" }} maxWidth={"25rem"}>
         <DialogTitle>Notifications</DialogTitle>
-
-        {sampleNotifications.length > 0 ? (
-          sampleNotifications.map(({ sender, _id }) => (
+ 
+ {
+  isLoading? (<Skeleton/>) : <>
+  {data?.allRequests.length.length > 0 ? (
+          data?.allRequests.map(({ sender, _id }) => (
             <NotificationItem
               sender={sender}
               _id={_id}
@@ -34,7 +53,9 @@ const Notifications = () => {
           ))
         ) : (
           <Typography textAlign={"center"}>0 Notification</Typography>
-        )}
+        )}</>
+ }
+        
       </Stack>
     </Dialog>
   );

@@ -8,13 +8,15 @@ import {Face as FaceIcon,
 } from "@mui/icons-material"
 
 import moment from "moment"
+import { transformImage } from '../../lib/features'
 
-const Profile = () => {
+const Profile = ({user}) => {
   return (
 
    <Stack spacing={"2rem"} deirections={"column"} alignItems={"center"}>
 
     <Avatar 
+    src={transformImage(user?.avatar?.url)}
     sx={{
       width: 200,
       height: 200,
@@ -27,11 +29,11 @@ const Profile = () => {
     />
 
       
-{<ProfileCard heading={"Bio"} text={"Mai hoo don"} />}
-{<ProfileCard heading={"UserName"} text={"menikhil"} Icon={<FaceIcon/>}/>}
-{<ProfileCard heading={"Name"} text={"Nikhi Kumar"} Icon={<UserNameIcon/>}/>}
-{<ProfileCard heading={"Joined"} text={moment('2024-05-06T00:00:00.000Z').fromNow(
-)} Icon={<CalendarIcon/>}/>}
+<ProfileCard heading={"Bio"} text={user?.bio} />
+<ProfileCard heading={"UserName"} text={user?.username} Icon={<FaceIcon/>}/>
+<ProfileCard heading={"Name"} text={user?.name} Icon={<UserNameIcon/>}/>
+<ProfileCard heading={"Joined"} text={moment(user?.createdAt).fromNow(
+)} Icon={<CalendarIcon/>}/>
 
 
 

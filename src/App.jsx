@@ -5,7 +5,7 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import ProtectRoute from './components/auth/ProtectRoute'
 import LayoutLoader from './components/layout/Loaders'
 
-import axios from "axios";
+import axios from 'axios';
 import {server} from "./components/constants/config.js"
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -31,14 +31,14 @@ const MessageManagement = lazy(()=> import( "./pages/admin/MessageManagement"))
 // let user = true; ab ye nhi redux auth wala user lenge
 function App() {
 
-  const {user, loader} = useSelector(state => state.auth)
+  const {user, loader} = useSelector((state) => state.auth)
  
   const dispatch = useDispatch();
   useEffect(()=>{
 
     axios
     .get(`${server}/api/v1/user/me`, {withCredentials: true})
-    .then((data)=> dispatch(userExists(data.user)))
+    .then(({data})=> dispatch(userExists(data.data)))
     .catch((err) => dispatch(userNotExists()));
 
   }, [dispatch]);
