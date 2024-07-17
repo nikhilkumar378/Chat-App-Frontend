@@ -6,9 +6,10 @@ import { server } from "../../components/constants/config";
 const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({baseUrl: `${server}/api/v1/`}),
-  tagTypes: ["Chat", "User"], // yecaching krega mtlb jo v data aayega usko tempo store krtega, dobara api hit hone k wajaye wahi data load ho jayega 
+  tagTypes: ["Chat", "User"], // ye caching krega mtlb jo v data aayega usko tempo store krtega, dobara api hit hone k wajaye wahi data load ho jayega 
 
   endpoints: (builder) => ({
+
     myChats: builder.query({
       query: () =>({
         url: "chat/my",
@@ -32,7 +33,7 @@ const api = createApi({
 
     sendFriendRequest: builder.mutation({
       query: (data) => ({
-        url: "/user/sendrequest",
+        url: "user/sendrequest",
         method: "PUT",
         credentials: "include",
         body: data,
@@ -50,6 +51,19 @@ const api = createApi({
        keepUnusedDataFor: 0,
       }),
 
+
+
+      
+    acceptFriendRequest: builder.mutation({
+      query: (data) => ({
+        url: "user/acceptrequest",
+        method: "PUT",
+        credentials: "include",
+        body: data,
+      }),
+      invalidatesTags: ["Chat"],
+    }),
+
     })
 
    
@@ -57,4 +71,4 @@ const api = createApi({
 
 
 export default api;
-export const {useMyChatsQuery, useLazySearchUserQuery, useSendFriendRequestMutation, useGetNotificationsQuery} = api;
+export const {useMyChatsQuery, useLazySearchUserQuery, useSendFriendRequestMutation, useGetNotificationsQuery, useAcceptFriendRequestMutation} = api;

@@ -25,7 +25,7 @@ const AppLayout = () => (WrappedComponent) => {
     //to show avatar in profile
     const { user } = useSelector((state) => state.auth);
 
-    const { isLoading, data, isError, error, refetch } = useMyChatsQuery("");
+    const { isLoading, data, isError, error, refetch } = useMyChatsQuery();
 
     useErrors([{ isError, error }]);
 
@@ -47,9 +47,10 @@ const AppLayout = () => (WrappedComponent) => {
           <Skeleton />
         ) : (
           <Drawer open={isMobile} onClose={handleMobileClose}>
+            {console.log(data)}
             <ChatList
               w="70vw"
-              chats={data.chats}
+              chats={data?.chats}
               chatId={chatId}
               handleDeleteChat={handleDeleteChat}
             />
@@ -70,7 +71,7 @@ const AppLayout = () => (WrappedComponent) => {
               <Skeleton />
             ) : (
               <ChatList
-                chats={data.chats}
+                chats={data?.chats}
                 chatId={chatId}
                 handleDeleteChat={handleDeleteChat}
               />
