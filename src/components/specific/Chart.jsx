@@ -1,22 +1,21 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React from "react";
-import { Line, Doughnut } from "react-chartjs-2";
+import { purple } from "@mui/material/colors";
 import {
-  Chart as ChartJS,
-  Tooltip,
-  Filler,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
   ArcElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Filler,
   Legend,
-  plugins,
+  LinearScale,
+  LineElement,
+  PointElement,
+  Tooltip
 } from "chart.js";
-import { orange, purple } from "@mui/material/colors";
-import { purpleLight } from "../constants/color";
+import React from "react";
+import { Doughnut, Line } from "react-chartjs-2";
 import { getLast7Days } from "../../lib/features";
+import { purpleLight } from "../constants/color";
 
 ChartJS.register(
   CategoryScale,
@@ -131,4 +130,5 @@ const DoughnutChart = ({ value = [], labels = [] }) => {
   );
 };
 
-export { LineChart, DoughnutChart };
+export { DoughnutChart, LineChart };
+
