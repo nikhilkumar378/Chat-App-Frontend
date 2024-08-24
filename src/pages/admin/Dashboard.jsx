@@ -129,7 +129,7 @@ useErrors([{
               alignItems: "center",
               width: { xs: "100%", sm: "50%" },
               justifyContent: "center",
-              width: "100%",
+              
               maxWidth: "25rem",
             }}
           >
