@@ -3,7 +3,7 @@
 import  {Suspense, lazy, useEffect} from 'react'
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import ProtectRoute from './components/auth/ProtectRoute'
-import LayoutLoader from './components/layout/Loaders'
+import { LayoutLoader } from './components/layout/Loaders.jsx';
 
 import axios from 'axios';
 import {server} from "./components/constants/config.js"
@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { userExists, userNotExists } from './redux/reducers/auth.js';
 
 import {Toaster} from "react-hot-toast"
+import { SocketProvider } from './Socket.jsx';
 
 
 
@@ -47,7 +48,10 @@ function App() {
     <BrowserRouter>
    <Suspense fallback={<LayoutLoader/>}>
    <Routes>
-      <Route element={<ProtectRoute user={user}/>}>
+    
+      <Route element={<SocketProvider>
+        <ProtectRoute user={user}/>
+      </SocketProvider>}>
       <Route path='/' element={<Home/>}/>
       <Route path='/chat/:chatId' element={<Chat/>}/>
       <Route path='/groups' element={<Groups/>}/>
@@ -62,9 +66,9 @@ function App() {
       <Route path='/admin' element={<AdminLogin/>}></Route>
       
       <Route path='/admin/dashboard' element={<Dashboard/>}></Route>
-      <Route path='/admin/messages' element={<MessageManagement/>}></Route>
       <Route path='/admin/users' element={<UserManagement/>}></Route>
       <Route path='/admin/chats' element={<ChatManagement/>}></Route>
+      <Route path='/admin/messages' element={<MessageManagement/>}></Route>
 
       <Route path='*' element={<Notfound/>}/>
     </Routes>

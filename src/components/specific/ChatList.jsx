@@ -5,7 +5,7 @@
 // eslint-disable-next-line no-unused-vars
 import { Stack } from '@mui/material'
 import React from 'react'
-import ChatItem from "../shared/Chatitem"
+import ChatItem from "../shared/ChatItem"
 
 
 const ChatList = ({
@@ -22,6 +22,8 @@ newMessagesAlert = [
 ],
 
 handleDeleteChat,
+
+
 
 }) => {
   return (

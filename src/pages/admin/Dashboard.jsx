@@ -3,7 +3,7 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 import AdminLayout from "../../components/layout/AdminLayout";
-import { Box, Container, Paper, Stack, Typography } from "@mui/material";
+import { Box, Container, Paper, Skeleton, Stack, Typography } from "@mui/material";
 import {
   AdminPanelSettings as AdminPanelSettingsIcon,
   Notifications as NotificationIcon,
@@ -17,8 +17,22 @@ import {
   SearchField,
 } from "../../components/styles/StyledComponents";
 import { DoughnutChart, LineChart } from "../../components/specific/Chart";
+import {useFetchData} from "6pp"
+import { server } from "../../components/constants/config";
+import {LayoutLoader} from "../../components/layout/Loaders";
+import {useErrors} from "../../hooks/hook"
+
 
 const Dashboard = () => {
+  const {loading,data,error} = useFetchData(`${server}/api/v1/admin/stats`, "dashboard-stats");
+
+ const{stats} = data || {};
+
+useErrors([{
+  isError:error,
+  error:useErrors,
+}])
+
   const Appbar = (
     <Paper
       elevation={5}
@@ -63,14 +77,21 @@ const Dashboard = () => {
       alignItems={"center"}
       spacing={"2rem"}
     >
-      <Noise title={"Users"} value={34} icon={<PersonIcon />} />
-      <Noise title={"Message"} value={76} icon={<GroupIcon />} />
-      <Noise title={"Chats"} value={678} icon={<MessageIcon />} />
+      <Noise title={"Users"} value={stats?.usersCount} icon={<PersonIcon />} />
+      <Noise title={"Chats"} value={stats?.totalChatsCount} icon={<GroupIcon />} />
+      <Noise title={"Messages"} value={stats?.messagesCount} icon={<MessageIcon />} />
     </Stack>
   );
+
+  console.log(data);
   return (
+    
+
+    
     <AdminLayout>
-      <Container component={"main"}>
+
+     {
+      loading? ( <Skeleton height={"100vh"} />) : ( <Container component={"main"}>
         {Appbar}
 
         <Stack
@@ -95,7 +116,7 @@ const Dashboard = () => {
               Last Message
             </Typography>
 
-            <LineChart value={[99, 55, 47, 87, 0, 1]} />
+            <LineChart value={stats?.messagesChart || []} />
           </Paper>
 
           <Paper
@@ -112,7 +133,12 @@ const Dashboard = () => {
               maxWidth: "25rem",
             }}
           >
-            <DoughnutChart />
+            <DoughnutChart 
+            labels={["Single Chats", "Group Chats"]}
+            value={[stats?.totalChatsCount - stats?.groupsCount || 0,
+              stats?.groupsCount || 0,
+            ]}
+            />
 
             <Stack
               position={"absolute"}
@@ -130,7 +156,9 @@ const Dashboard = () => {
         </Stack>
 
         {widget}
-      </Container>
+      </Container>)
+     }
+
     </AdminLayout>
   );
 };

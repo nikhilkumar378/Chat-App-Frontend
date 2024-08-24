@@ -20,6 +20,7 @@ return "file";
 
 }
 
+
 const getLast7Days = ()=>{
 
   const currentDate = moment()
@@ -38,7 +39,27 @@ const getLast7Days = ()=>{
 
 }
 
-const transformImage = (url = "",  width = 100) => url;
+//https://res.cloudinary.com/durw3mdnx/image/upload/dpr_auto/w_300/v1722845664/4a3ab033-537d-4a9d-bb18-f72234231348.jpg
+
+const transformImage = (url = "", width = 100) => {
+  if (!url.includes("upload/")) {
+    // console.warn("URL does not contain 'upload/'. Returning original URL.");
+    return url;
+  }
+
+  const newUrl = url.replace("upload/", `upload/dpr_auto/w_${width}/`);
+  return newUrl;
+};
 
 
-export {fileFormat, transformImage, getLast7Days}
+//page refresh krne pr data rahna chahiye
+const getOrSaveFromStorage = ({key, value, get}) =>{
+  if(get)
+    return localStorage.getItem(key)
+  ? JSON.parse(localStorage.getItem(key))
+  : null;
+  else localStorage.setItem(key, JSON.stringify(value));
+}
+
+
+export {fileFormat, transformImage, getLast7Days, getOrSaveFromStorage}

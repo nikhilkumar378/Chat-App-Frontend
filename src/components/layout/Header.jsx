@@ -2,6 +2,7 @@
 import {
   AppBar,
   Backdrop,
+  Badge,
   Box,
   IconButton,
   Toolbar,
@@ -9,22 +10,23 @@ import {
   Typography,
 } from "@mui/material";
 
-import React, { Suspense, lazy, useState } from "react";
 import {
   Add as AddIcon,
-  Menu as MenuIcon,
-  Search as SearchIcon,
   Group as GroupIcon,
   Logout as LogoutIcon,
+  Menu as MenuIcon,
   Notifications as NotificationIcon,
+  Search as SearchIcon,
 } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { server } from "../constants/config";
+import React, { Suspense, lazy, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { userNotExists } from "../../redux/reducers/auth";
-import { setIsMobile, setIsNotification, setIsSearch } from "../../redux/reducers/misc";
+import { resetNotificationCount } from "../../redux/reducers/chat";
+import { setIsNewGroup,setIsMobile, setIsNotification, setIsSearch } from "../../redux/reducers/misc";
+import { server } from "../constants/config";
 // import Search from "../specific/Search"
 
 const Search = lazy(() => import("../specific/Search"));
@@ -35,9 +37,11 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const {isSearch, isNotification} = useSelector((state)=> state.misc);
+  const {isSearch, isNotification, isNewGroup} = useSelector((state)=> state.misc);
+
+  const {notificationCount} = useSelector((state) => state.chat);
  
-  const [isNewGroup, setIsNewGroup] = useState(false);
+
 
 
   const handleMobile = () => {
@@ -47,7 +51,7 @@ const Header = () => {
   const openSearchDialog = () => dispatch(setIsSearch(true));
 
   const openNewGroup = () => {
-    setIsNewGroup((prev) => !prev);
+    dispatch(setIsNewGroup(true));
   };
 
 
@@ -71,6 +75,7 @@ const Header = () => {
 
   const openNotification = () => {
     dispatch(setIsNotification(true))
+    dispatch(resetNotificationCount());
   };
 
   const navigateToGroup = () => navigate("/groups");
@@ -139,6 +144,7 @@ const Header = () => {
                 title={"Notifications"}
                 icon={<NotificationIcon />}
                 onClick={openNotification}
+                value={notificationCount}
               ></IconBtn>
 
               <IconBtn
@@ -163,7 +169,7 @@ const Header = () => {
         </Suspense>
       )}
 
-      {isNewGroup && (
+      { isNewGroup && (
         <Suspense fallback={<Backdrop  open/>}>
           <NewGroup />
         </Suspense>
@@ -173,11 +179,12 @@ const Header = () => {
 };
 
 // eslint-disable-next-line react/prop-types
-const IconBtn = ({ title, icon, onClick }) => {
+const IconBtn = ({ title, icon, onClick, value }) => {
   return (
     <Tooltip title={title}>
       <IconButton color="inherit" size="large" onClick={onClick}>
-        {icon}
+
+       {value ? (<Badge badgeContent={value} color="error">{icon}</Badge>) : (icon)}
       </IconButton>
     </Tooltip>
   );

@@ -13,7 +13,6 @@ import {
   ArcElement,
   Legend,
   plugins,
-  
 } from "chart.js";
 import { orange, purple } from "@mui/material/colors";
 import { purpleLight } from "../constants/color";
@@ -29,8 +28,7 @@ ChartJS.register(
   LineElement,
   ArcElement,
   Legend,
-  plugins
-
+  
 );
 
 const labels = getLast7Days();
@@ -70,7 +68,7 @@ const LineChart = ({ value = [] }) => {
     datasets: [
       {
         data: value,
-        label: "Revenue",
+        label: "Messages",
         fill: true,
         backgroundColor: purpleLight,
         borderColor: purple,
@@ -81,26 +79,19 @@ const LineChart = ({ value = [] }) => {
   return <Line data={data} options={lineChartoptions} />;
 };
 
-
 const doughnutChartOptions = {
   responsive: true,
-  plugins:{
-    legend:{
-      display :false
+  plugins: {
+    legend: {
+      display: false,
     },
 
-    title:{
-      display: false
-    }
-  }, 
-  cutout: 120
-}
+   
+  },
+  cutout: 120,
+};
 
-
-
-
-const DoughnutChart = ({ value=[], labels=[] }) => {
- 
+const DoughnutChart = ({ value = [], labels = [] }) => {
   // const data = {
   //   labels:["Single Chat", "Group Chat"],
 
@@ -116,23 +107,28 @@ const DoughnutChart = ({ value=[], labels=[] }) => {
   // };
 
   const data = {
-    labels: [
-      'Single Chat',
-      'Group Chat',
+    labels: ["Single Chat", "Group Chat"],
+    datasets: [
+      {
+        label: "Total Chats Vs Group Chats",
+        data: [300, 50, 100],
+        backgroundColor: [
+          "rgb(255, 99, 132)",
+          "rgb(54, 162, 235)",
+          "rgb(255, 205, 86)",
+        ],
+        hoverOffset: 4,
+      },
     ],
-    datasets: [{
-      label: 'Total Chats Vs Group Chats',
-      data: [300, 50, 100],
-      backgroundColor: [
-        'rgb(255, 99, 132)',
-        'rgb(54, 162, 235)',
-        'rgb(255, 205, 86)'
-      ],
-      hoverOffset: 4
-    }]
   };
 
-  return <Doughnut data={data}  options={doughnutChartOptions}   style={{zIndex:10}} />
+  return (
+    <Doughnut
+      data={data}
+      options={doughnutChartOptions}
+      style={{ zIndex: 10 }}
+    />
+  );
 };
 
 export { LineChart, DoughnutChart };

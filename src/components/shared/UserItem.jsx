@@ -21,7 +21,7 @@ const UserItem = ({ user, handler, handlerIsLoading, isAdded = false, styling = 
         <Typography
           variant="body1"
           sx={{
-            flexGlow: 1,
+            flexGrow: 1,
             display: "-webkit-box",
             WebkitLineClamp: 1,
             overflow: "hidden",

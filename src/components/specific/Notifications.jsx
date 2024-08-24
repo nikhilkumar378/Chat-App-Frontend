@@ -14,8 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { memo } from "react";
-import { useErrors } from "../../hooks/hook";
-import { transformImage } from "../../lib/features";
+import { useAsyncMutation, useErrors } from "../../hooks/hook.jsx";
 import {
   useAcceptFriendRequestMutation,
   useGetNotificationsQuery,
@@ -23,7 +22,6 @@ import {
 
 import { useDispatch, useSelector } from "react-redux";
 import { setIsNotification } from "../../redux/reducers/misc";
-import toast from "react-hot-toast";
 
 const Notifications = () => {
   const { isNotification } = useSelector((state) => state.misc);
@@ -31,21 +29,22 @@ const Notifications = () => {
   const dispatch = useDispatch();
 
   const { isLoading, data, error, isError } = useGetNotificationsQuery();
-  const [acceptRequest] = useAcceptFriendRequestMutation();
+  const [acceptRequest] = useAsyncMutation(useAcceptFriendRequestMutation);
 
   const friendRequestHandler = async ({ _id, accept }) => {
     dispatch(setIsNotification(false));
-    try {
-      const res = await acceptRequest({ requestId: _id, accept });
+     await acceptRequest("Accepting..." ,{requestId: _id, accept})
+    // try {
+    //   const res = await acceptRequest({ requestId: _id, accept });
 
-      if (res.data?.success) {
-        console.log("UseSocket.Io");
-        toast.success(res.data.message);
-      } else toast.error(res.data?.error || "Something went wrong");
-    } catch (error) {
-      toast.error("Something went wrong");
-      console.log(error);
-    }
+    //   if (res.data?.success) {
+    //     console.log("UseSocket.Io");
+    //     toast.success(res.data.message);
+    //   } else toast.error(res.data?.error || "Something went wrong");
+    // } catch (error) {
+    //   toast.error("Something went wrong");
+    //   console.log(error);
+    // }
   };
 
   const closeHandler = () => dispatch(setIsNotification(false));
@@ -82,7 +81,7 @@ const Notifications = () => {
 };
 
 const NotificationItem = memo(({ sender, _id, handler }) => {
-  const { name, avatar } = sender;
+  const { name } = sender;
   return (
     <ListItem>
       <Stack

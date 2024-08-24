@@ -132,7 +132,10 @@ export const dashboardData = {
     avatar: ["https://i1.wp.com/godofindia.com/wp-content/uploads/2017/05/ms-dhoni-6.jpg"],
     _id: "1",
     groupChat: false,
-    members: ["1", "2"],
+    members: [{_id: "1", avatar:"https://i1.wp.com/godofindia.com/wp-content/uploads/2017/05/ms-dhoni-6.jpg" },
+
+      {_id: "2", avatar:"https://i1.wp.com/godofindia.com/wp-content/uploads/2017/05/ms-dhoni-6.jpg" }
+    ],
     totalmembers: 2,
     totalmessages: 20,
     creator:{
@@ -147,14 +150,52 @@ export const dashboardData = {
     avatar: ["https://i1.wp.com/godofindia.com/wp-content/uploads/2017/05/ms-dhoni-6.jpg"],
     _id: "2",
     groupChat: true,
-    members: ["1", "3"],
+    members: [{_id: "1", avatar:"https://i1.wp.com/godofindia.com/wp-content/uploads/2017/05/ms-dhoni-6.jpg" },
+
+      {_id: "2", avatar:"https://i1.wp.com/godofindia.com/wp-content/uploads/2017/05/ms-dhoni-6.jpg" }
+    ],
     totalmembers: 6,
     totalmessages: 60,
     creator:{
      name: "Nill Arm",
      avatar: "https://i1.wp.com/godofindia.com/wp-content/uploads/2017/05/ms-dhoni-6.jpg"
     }
-  }]
+  }],
+   
+  messages:[
+    {
+      attachments:[],
+      content: "Hii bro whatsup..!",
+      _id: "dfgfgbfbdgfb",
+      sender:{
+        _id: "fgbhsgrhgfb",
+        name: "Nikhil"
+      },
+      chat:"chatId",
+      groupChat:false,
+      createdAt: "2024-02-12T10:41:30.630z",
+    },
+
+    {
+      attachments:[
+        {
+          public_id: "dsdasd 2",
+          url: "https://i1.wp.com/godofindia.com/wp-content/uploads/2017/05/ms-dhoni-6.jpg"
+        }
+      ],
+      content:"",
+      _id: "dfiuyfbdgfb",
+      sender:{
+        _id: "fjhbjythgfb",
+        name: "pratik"
+      },
+      chat:"chatId",
+      groupChat:true,
+      createdAt: "2024-02-12T10:41:30.630z",
+    }
+  ]
+
+
 }
 
 

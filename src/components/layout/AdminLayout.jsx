@@ -17,6 +17,8 @@ import { Menu as MenuIcon, ManageAccounts as ManageAccountsIcon, Groups as Group
 import { Close as CloseIcon } from "@mui/icons-material";
 import { useLocation, Link as LinkComponent, Navigate } from "react-router-dom";
 import { Dashboard as DashboardIcon } from "@mui/icons-material";
+import { useDispatch, useSelector } from "react-redux";
+import { adminLogout } from "../../redux/thunks/admin";
 
 const Link = styled(LinkComponent)`
 text-decoration: none;
@@ -58,9 +60,10 @@ const adminTabs = [
 
 
 const Sidebar = ({ w = "100%" }) => {
+  const dispatch = useDispatch();
   const location = useLocation();
   const logOutHandler = ()=>{
-    console.log("logout")
+   dispatch(adminLogout());
   }
 
   return (
@@ -103,9 +106,10 @@ const Sidebar = ({ w = "100%" }) => {
 
 
 
-const isAdmin = true;
+
 
 const AdminLayout = ({ children }) => {
+  const { isAdmin } = useSelector((state) => state.auth);
   const [isMobile, setMobile] = useState(false);
   const handleMobile = () => setMobile(!isMobile);
   const handleClose = () => setMobile(false);

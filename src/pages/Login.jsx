@@ -22,6 +22,7 @@ import { usernameValidator } from "../utils/validator.js";
 const Login = () => {
   // eslint-disable-next-line no-unused-vars
   const [isLogin, setIsLogin] = useState(true);
+  const[isLoading, setIsLoading] = useState(false);
 
   const togglelogin = () => setIsLogin((prev) => !prev);
   const name = useInputValidation("");
@@ -35,6 +36,9 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+
+    const toastId = toast.loading("Logging In...");
 
     const config = {
       withCredentials: true,
@@ -52,10 +56,16 @@ const Login = () => {
         },
         config
       );
-      dispatch(userExists(true));
-      toast.success(data.message);
+      dispatch(userExists(data.user));
+      toast.success(data.message, {
+        id: toastId,
+      });
     } catch (error) {
-      toast.error(error?.response?.data?.message || "Something Went Wrong");
+      toast.error(error?.response?.data?.message || "Something Went Wrong",  {
+        id: toastId,
+      });
+    }finally{
+      setIsLoading(false);
     }
   };
 
@@ -64,6 +74,9 @@ const Login = () => {
 
   const handleSignup = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    
+    const toastId = toast.loading("Signing Up...");
 
     const formData = new FormData();
 
@@ -89,10 +102,16 @@ const Login = () => {
 
       
 
-      dispatch(userExists(true));
-      toast.success(data.message);
+      dispatch(userExists(data.user));
+      toast.success(data.message,{
+        id: toastId,
+      });
     } catch (error) {
-      toast.error(error?.response?.data?.message || "Something Went Wrong");
+      toast.error(error?.response?.data?.message || "Something Went Wrong", {
+        id: toastId,
+      });
+    }finally{
+      setIsLoading(false);
     }
   };
 
@@ -161,6 +180,7 @@ const Login = () => {
                   type="submit"
                   color="primary"
                   fullWidth
+                  disabled={isLoading}
                 >
                   Login
                 </Button>
@@ -169,7 +189,7 @@ const Login = () => {
                   OR
                 </Typography>
 
-                <Button fullWidth variant="text" onClick={togglelogin}>
+                <Button fullWidth variant="text" onClick={togglelogin} disabled={isLoading} >
                   Sign Up Instead
                 </Button>
               </form>
@@ -290,6 +310,7 @@ const Login = () => {
                   type="submit"
                   color="primary"
                   fullWidth
+                  disabled={isLoading}
                 >
                   Sign Up
                 </Button>
@@ -298,7 +319,7 @@ const Login = () => {
                   OR
                 </Typography>
 
-                <Button fullWidth variant="text" onClick={togglelogin}>
+                <Button fullWidth variant="text" onClick={togglelogin}  disabled={isLoading}>
                   Login Instead
                 </Button>
               </form>

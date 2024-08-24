@@ -1,8 +1,7 @@
 /* eslint-disable no-unused-vars */
-import { imageListClasses } from '@mui/material';
-import React from 'react'
+import { FileOpen as FileOpenIcon } from "@mui/icons-material";
+import React from 'react';
 import { transformImage } from '../../lib/features';
-import {FileOpen as FileOpenIcon} from "@mui/icons-material"
 
 const RenderAttachments = (file, url) => {
   

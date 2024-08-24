@@ -7,15 +7,25 @@ import moment from "moment";
 import React, { memo } from "react";
 import { fileFormat } from "../../lib/features";
 import RenderAttachments from "./RenderAttachments";
+import {motion} from 'framer-motion';
 
 const MessageComponents = ({ message, user }) => {
+
+  if (!message) {
+    return null; // Or return a fallback UI
+  }
+  
   const { sender, content, attachments = [], createdAt } = message;
 
   const timeAgo = moment(createdAt).fromNow()
 
   const samesender = sender?._id === user?._id;
+
+  // console.log(sender?._id, user?._id)
   return (
-    <div
+    <motion.div
+    initial={{opacity: 0, x: "-100%"}}
+    whileInView={{opacity:1, x:0}}
       style={{
         alignSelf: samesender ? "flex-end" : "flex-start",
         backgroundColor: "white",
@@ -32,7 +42,7 @@ const MessageComponents = ({ message, user }) => {
 
        
       
-      attachments.length > 0 && 
+      attachments?.length > 0 && 
 
       attachments.map((attachment, index)=>{
 
@@ -59,7 +69,7 @@ const MessageComponents = ({ message, user }) => {
       }
 
       {<Typography  variant="caption" color={"text.secondary"} >{timeAgo}</Typography>}
-    </div>
+    </motion.div>
   );
 };
 
