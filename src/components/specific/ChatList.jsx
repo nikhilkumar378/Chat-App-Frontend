@@ -5,7 +5,7 @@
 // eslint-disable-next-line no-unused-vars
 import { Stack } from '@mui/material'
 import React from 'react'
-import {ChatItem} from "../shared/ChatItem.jsx"
+import ChatItem from "../shared/ChatItem.jsx"
 
 
 const ChatList = ({
@@ -36,7 +36,7 @@ const newMessageAlert = newMessagesAlert.find(
 );
 
 const isOnline = members?.some((member) => onlineUsers.includes(member));
-  return <ChatItem
+  return (<ChatItem
   index={index}
    newMessageAlert={newMessageAlert}
    isOnline={isOnline}
@@ -47,7 +47,7 @@ const isOnline = members?.some((member) => onlineUsers.includes(member));
    groupChat = {groupChat}
    sameSender={chatId === _id}
    handleDeleteChat={handleDeleteChat}
-  />
+  />)
 })}
 
 </Stack>
